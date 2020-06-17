@@ -1,6 +1,7 @@
 #include <SFML\Graphics.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <random>
+#include <string>
 
 uint32_t nLehmer = 0;
 uint32_t Lehmer32()
@@ -59,11 +60,17 @@ int main()
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
 
     float screenCoordX = 0.0f;
-    float screenCoordY = 0.0f;
+    float screenCoordY = -0.0f;
     int sectorWidth = 35;
     int nSectorX = width / sectorWidth;
     int nSectorY = height / sectorWidth;
     sf::Clock clock;
+    sf::Font font;
+    font.loadFromFile("C:\\Windows\\Fonts\\Ebrima.ttf");
+    sf::Text coordinates;
+    coordinates.setFont(font);
+    coordinates.setPosition(0, 0);
+
     while (window.isOpen())
     {
         float dt = clock.getElapsedTime().asSeconds();
@@ -91,6 +98,9 @@ int main()
         {
             screenCoordY -= 100*dt;
         }
+
+        coordinates.setString(std::to_string(screenCoordX) + ", " + std::to_string(-screenCoordY));
+
         sf::Vector2i mousePos= sf::Mouse::getPosition(window);
         mousePos /= 35;
         mousePos += sf::Vector2i(screenCoordX, screenCoordY);
@@ -123,7 +133,7 @@ int main()
             }
         }
 
-        //window.draw(spr);
+        window.draw(coordinates);
         window.display();
     }
 
