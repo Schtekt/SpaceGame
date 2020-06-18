@@ -1,9 +1,9 @@
-#include <SFML\Graphics.hpp>
+/*#include <SFML\Graphics.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <random>
-#include <string>
+#include <string>*/
 
-uint32_t nLehmer = 0;
+/*uint32_t nLehmer = 0;
 uint32_t Lehmer32()
 {
     nLehmer += 0xe120fc15;
@@ -52,11 +52,13 @@ void initStarColors()
     starColors[2] = sf::Color::Blue;
     starColors[3] = sf::Color::White;
     starColors[4] = sf::Color::Magenta;
-}
+}*/
+
+#include "Game.h"
 
 int main()
 {
-    initStarColors();
+    /*initStarColors();
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
 
     float screenCoordX = 0.0f;
@@ -135,7 +137,8 @@ int main()
 
         window.draw(coordinates);
         window.display();
-    }
-
+    }*/
+    Game game;
+    game.run();
     return 0;
 }
