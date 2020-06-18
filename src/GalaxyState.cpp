@@ -10,6 +10,13 @@ GalaxyState::GalaxyState()
 
     m_mousePosX = 0;
     m_mousePosY = 0;
+    m_font = new sf::Font();
+    m_font->loadFromFile("C:\\Windows\\Fonts\\Ebrima.ttf");
+}
+
+GalaxyState::~GalaxyState()
+{
+    delete m_font;
 }
 
 void GalaxyState::Update(float dt,sf::RenderWindow* window)
@@ -44,11 +51,10 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
 void GalaxyState::Render(sf::RenderWindow* window)
 {
     window->clear();
-    int sectorWidth = window->getSize().x / m_sectorsOnScreen;
-    int sectorHeight = window->getSize().y / m_sectorsOnScreen;
+    int sectorWidth = std::min(window->getSize().x,window->getSize().y) / m_sectorsOnScreen;
 
     sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
-    galMousePos /= 35;
+    galMousePos /= sectorWidth;
     galMousePos += sf::Vector2i(m_galaxyOffsetX, m_galaxyOffsetY);
 
     for (int x = 0; x < m_sectorsOnScreen; x++)
@@ -77,6 +83,13 @@ void GalaxyState::Render(sf::RenderWindow* window)
             }
         }
     }
+
+    sf::Text coordinatesText;
+    coordinatesText.setFont(*m_font);
+    coordinatesText.setPosition(sf::Vector2f(0, 0));
+    coordinatesText.setString(std::to_string(m_galaxyOffsetX) + ", " + std::to_string(-m_galaxyOffsetY));
+    window->draw(coordinatesText);
+
 
     window->display();
 }

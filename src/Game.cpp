@@ -3,8 +3,8 @@
 #include <SFML/System.hpp>
 #include "GalaxyState.h"
 
-unsigned int width = 1280;
-unsigned int height = 1024;
+unsigned int width = 720;
+unsigned int height = 720;
 
 Game::Game()
 {
@@ -20,11 +20,10 @@ Game::~Game()
 void Game::run()
 {
 	sf::Clock clock;
-	sf::RenderWindow window(sf::VideoMode(1280, 1024), "Another space game!");
-	while (window.isOpen())
+	while (m_pWindow->isOpen())
 	{
 		sf::Event event;
-		state->Update(clock.restart().asSeconds(), &window);
-		state->Render(&window);
+		state->Update(clock.restart().asSeconds(), m_pWindow);
+		state->Render(m_pWindow);
 	}
 }
