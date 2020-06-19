@@ -19,6 +19,10 @@ private:
 	int m_mousePosY;
 
 	sf::Font* m_font;
+
+	bool m_selected;
+	int m_selectedPosX;
+	int m_selectedPosY;
 public:
 	GalaxyState();
 	~GalaxyState();

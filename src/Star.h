@@ -4,18 +4,27 @@ namespace sf
 {
     class Color;
 }
-class Star
+
+
+struct planet
 {
-private:
+    int size;
+    sf::Color* color;
+};
+
+
+
+struct Star
+{
+
     bool m_exists = false;
     float m_size = .0f;
     sf::Color* m_pColor;
-public:
-    Star(int x, int y, int minSize, int maxSize);
+    int m_nrOfPlanets;
+    planet* m_pPlanets;
 
-    bool Exists();
-    float Size();
-    sf::Color Color();
+    Star(int x, int y, int minSize, int maxSize, bool genFullSystem = false);
+    ~Star();
 };
 
 #endif

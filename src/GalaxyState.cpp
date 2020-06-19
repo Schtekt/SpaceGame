@@ -2,11 +2,13 @@
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
 #include "Star.h"
+
 GalaxyState::GalaxyState()
 {
     m_galaxyOffsetX = 1;
     m_galaxyOffsetY = -1;
     m_sectorsOnScreen = 30;
+    m_selected = false;
 
     m_mousePosX = 0;
     m_mousePosY = 0;
@@ -46,6 +48,23 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         m_galaxyOffsetY -= 30 * dt;
     }
 
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
+        sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
+        galMousePos /= sectorWidth;
+        galMousePos += sf::Vector2i(m_galaxyOffsetX, m_galaxyOffsetY);
+
+        Star star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
+
+        if (star.m_exists)
+        {
+            m_selected = true;
+            m_selectedPosX = galMousePos.x;
+            m_selectedPosY = galMousePos.y;
+        }
+    }
+
 }
 
 void GalaxyState::Render(sf::RenderWindow* window)
@@ -64,11 +83,11 @@ void GalaxyState::Render(sf::RenderWindow* window)
             int coordX = x + m_galaxyOffsetX;
             int coordY = y + m_galaxyOffsetY;
             Star star(coordX, coordY, 3, sectorWidth - 1);
-            if (star.Exists())
+            if (star.m_exists)
             {
-                sf::CircleShape tmp(star.Size() / 2);
+                sf::CircleShape tmp(star.m_size / 2);
                 tmp.setPosition(x * sectorWidth + sectorWidth / 2 - tmp.getRadius(), y * sectorWidth + sectorWidth / 2 - tmp.getRadius());
-                tmp.setFillColor(star.Color());
+                tmp.setFillColor(*star.m_pColor);
                 window->draw(tmp);
 
                 if (galMousePos == sf::Vector2i(coordX, coordY))
@@ -90,6 +109,29 @@ void GalaxyState::Render(sf::RenderWindow* window)
     coordinatesText.setString(std::to_string(m_galaxyOffsetX) + ", " + std::to_string(-m_galaxyOffsetY));
     window->draw(coordinatesText);
 
+    if (m_selected)
+    {
+        sf::RenderTexture tex;
+        tex.create(window->getSize().x, window->getSize().y / 5);
+        tex.clear(sf::Color::Blue);
+        Star star(m_selectedPosX, m_selectedPosY, 3, 20, true);
 
+        sf::CircleShape tmp(star.m_size * 2);
+        tmp.setFillColor(*star.m_pColor);
+        tmp.setPosition(0, tex.getSize().y / 2 - tmp.getRadius());
+        tex.draw(tmp);
+        for (int i = 0; i < star.m_nrOfPlanets; i++)
+        {
+            sf::CircleShape planTmp(star.m_pPlanets[i].size);
+            planTmp.setFillColor(*star.m_pPlanets[i].color);
+            planTmp.setPosition(tmp.getRadius() * 2 + 10 + i*40, tex.getSize().y / 2 - star.m_pPlanets[i].size / 2);
+            tex.draw(planTmp);
+        }
+
+        sf::Sprite starSysDisplay;
+        starSysDisplay.setTexture(tex.getTexture());
+        starSysDisplay.setPosition(0, window->getSize().y * 4 / 5);
+        window->draw(starSysDisplay);
+    }
     window->display();
 }
