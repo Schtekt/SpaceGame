@@ -1,8 +1,8 @@
 #include "GalaxyState.h"
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
-
-GalaxyState::GalaxyState()
+#include "Ship.h"
+GalaxyState::GalaxyState() : m_pShip(new Ship(1,-1, "..\\resources\\DefaultTex.png")), m_grid(false)
 {
     m_galaxyOffsetX = 1;
     m_galaxyOffsetY = -1;
@@ -56,7 +56,12 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
             sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
             galMousePos /= sectorWidth;
-            galMousePos += sf::Vector2i(m_galaxyOffsetX, m_galaxyOffsetY);
+            galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
+
+            m_pShip->Move(galMousePos.x, galMousePos.y);
+
+            if (!m_seletectedStar)
+                delete m_seletectedStar;
 
             m_seletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
 
@@ -67,9 +72,19 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
                 m_selectedPosY = galMousePos.y;
             }
         }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            m_grid = true;
+        }
+        else
+        {
+            m_grid = false;
+        }
     }
     //Other Stuff
-
+    int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
+    m_pShip->Update(m_galaxyOffsetX * sectorWidth, m_galaxyOffsetY * sectorWidth, dt, window);
 
 
 
@@ -82,14 +97,14 @@ void GalaxyState::Render(sf::RenderWindow* window)
 
     sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
     galMousePos /= sectorWidth;
-    galMousePos += sf::Vector2i(m_galaxyOffsetX, m_galaxyOffsetY);
+    galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
 
     for (int x = 0; x < m_sectorsOnScreen; x++)
     {
         for (int y = 0; y < m_sectorsOnScreen; y++)
         {
-            int coordX = x + m_galaxyOffsetX;
-            int coordY = y + m_galaxyOffsetY;
+            int coordX = x + std::roundf(m_galaxyOffsetX);
+            int coordY = y + std::roundf(m_galaxyOffsetY);
             Star star(coordX, coordY, 5, sectorWidth - 2);
             if (star.m_exists)
             {
@@ -111,10 +126,33 @@ void GalaxyState::Render(sf::RenderWindow* window)
         }
     }
 
+    if (m_grid)
+    {
+        for (int y = 0; y < m_sectorsOnScreen - 1; y++)
+        {
+            int coordY = y + std::roundf(m_galaxyOffsetY);
+            sf::Vertex vertices[] =
+            {
+                sf::Vertex(sf::Vector2f(0, y * sectorWidth + sectorWidth), sf::Color(50,50,50)),
+                sf::Vertex(sf::Vector2f(window->getSize().x, y * sectorWidth + sectorWidth), sf::Color(50,50,50))
+            };
+            window->draw(vertices, 2, sf::Lines);
+        }
+        for (int x = 0; x < m_sectorsOnScreen - 1; x++)
+        {
+            int coordX = x + std::roundf(m_galaxyOffsetY);
+            sf::Vertex vertices[] =
+            {
+                sf::Vertex(sf::Vector2f(x * sectorWidth + sectorWidth, 0), sf::Color(50,50,50)),
+                sf::Vertex(sf::Vector2f(x * sectorWidth + sectorWidth, window->getSize().y), sf::Color(50,50,50))
+            };
+            window->draw(vertices, 2, sf::Lines);
+        }
+    }
     sf::Text coordinatesText;
     coordinatesText.setFont(*m_font);
     coordinatesText.setPosition(sf::Vector2f(0, 0));
-    coordinatesText.setString(std::to_string(m_galaxyOffsetX) + ", " + std::to_string(-m_galaxyOffsetY));
+    coordinatesText.setString(std::to_string((int)std::roundf(m_galaxyOffsetX)) + ", " + std::to_string((int)std::roundf(m_galaxyOffsetY)));
     window->draw(coordinatesText);
 
     if (m_selected)
@@ -141,5 +179,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
         starSysDisplay.setPosition(0, window->getSize().y * 4 / 5);
         window->draw(starSysDisplay);
     }
+
+    m_pShip->Render(window);
     window->display();
 }

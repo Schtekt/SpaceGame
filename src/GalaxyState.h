@@ -8,6 +8,8 @@ namespace sf
 	class Font;
 }
 
+class Ship;
+
 class GalaxyState : public GameState
 {
 private:
@@ -25,6 +27,9 @@ private:
 	int m_selectedPosX;
 	int m_selectedPosY;
 	Star* m_seletectedStar;
+	Ship* m_pShip;
+
+	bool m_grid;
 public:
 	GalaxyState();
 	~GalaxyState();
