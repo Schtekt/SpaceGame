@@ -10,7 +10,7 @@ enum {
 
 Config::Config()
 {
-	std::ifstream file("config.txt");
+	std::ifstream file("..//resources//config.txt");
 
 	if (file.is_open()) {
 		while (!file.eof()) {
