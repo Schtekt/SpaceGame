@@ -10,11 +10,11 @@ class Game
 {
 private:
 	sf::RenderWindow* m_pWindow;
-	GameState* state;
+	GameState* m_pState;
 public:
 	Game();
 	~Game();
-	void run();
+	void Run();
 };
 
 #endif // !GAME_H
