@@ -10,7 +10,7 @@ unsigned int height = 720;
 Game::Game()
 {
 	m_pWindow = new sf::RenderWindow(sf::VideoMode(Config::getInstance().getWindowSizeWidth(), Config::getInstance().getWindowSizeHeight()), "Another space game!");
-	state = new GalaxyState();
+	m_pState = new GalaxyState();
 }
 
 Game::~Game()
@@ -18,13 +18,13 @@ Game::~Game()
 	delete m_pWindow;
 }
 
-void Game::run()
+void Game::Run()
 {
 	sf::Clock clock;
 	while (m_pWindow->isOpen())
 	{
 		sf::Event event;
-		state->Update(clock.restart().asSeconds(), m_pWindow);
-		state->Render(m_pWindow);
+		m_pState->Update(clock.restart().asSeconds(), m_pWindow);
+		m_pState->Render(m_pWindow);
 	}
 }
