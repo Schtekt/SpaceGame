@@ -1,6 +1,7 @@
 #ifndef GALAXYSTATE_H
 #define GALAXYSTATE_H
 #include "GameState.h"
+#include "Star.h"
 
 namespace sf
 {
@@ -23,6 +24,7 @@ private:
 	bool m_selected;
 	int m_selectedPosX;
 	int m_selectedPosY;
+	Star* m_seletectedStar;
 public:
 	GalaxyState();
 	~GalaxyState();

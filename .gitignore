@@ -1,3 +1,4 @@
 build/
 dependencies/
 bin/
+premake5.exe

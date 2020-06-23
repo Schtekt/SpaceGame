@@ -1,7 +1,6 @@
 #include "GalaxyState.h"
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
-#include "Star.h"
 
 GalaxyState::GalaxyState()
 {
@@ -24,44 +23,47 @@ GalaxyState::~GalaxyState()
 void GalaxyState::Update(float dt,sf::RenderWindow* window)
 {
     sf::Event event;
-    while (window->pollEvent(event))
+    if (window->hasFocus())
     {
-        if (event.type == sf::Event::Closed)
+        while (window->pollEvent(event))
         {
-            window->close();
+            if (event.type == sf::Event::Closed)
+            {
+                window->close();
+            }
         }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-    {
-        m_galaxyOffsetX += 30 * dt;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-    {
-        m_galaxyOffsetX -= 30 * dt;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-    {
-        m_galaxyOffsetY += 30 * dt;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-    {
-        m_galaxyOffsetY -= 30 * dt;
-    }
-
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-    {
-        int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
-        sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
-        galMousePos /= sectorWidth;
-        galMousePos += sf::Vector2i(m_galaxyOffsetX, m_galaxyOffsetY);
-
-        Star star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
-
-        if (star.m_exists)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
         {
-            m_selected = true;
-            m_selectedPosX = galMousePos.x;
-            m_selectedPosY = galMousePos.y;
+            m_galaxyOffsetX += 30 * dt;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+        {
+            m_galaxyOffsetX -= 30 * dt;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+        {
+            m_galaxyOffsetY += 30 * dt;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+        {
+            m_galaxyOffsetY -= 30 * dt;
+        }
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+            int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
+            sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
+            galMousePos /= sectorWidth;
+            galMousePos += sf::Vector2i(m_galaxyOffsetX, m_galaxyOffsetY);
+
+            m_seletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
+
+            if (m_seletectedStar->m_exists)
+            {
+                m_selected = true;
+                m_selectedPosX = galMousePos.x;
+                m_selectedPosY = galMousePos.y;
+            }
         }
     }
 
