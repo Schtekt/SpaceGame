@@ -15,8 +15,8 @@ private:
 	sf::Sprite* m_pSprite;
 	sf::Texture* m_pTex;
 
-	int m_posX;
-	int m_posY;
+	float m_posX;
+	float m_posY;
 
 	float m_angle;
 
