@@ -82,10 +82,10 @@ void GalaxyState::Render(sf::RenderWindow* window)
         {
             int coordX = x + m_galaxyOffsetX;
             int coordY = y + m_galaxyOffsetY;
-            Star star(coordX, coordY, 3, sectorWidth - 1);
+            Star star(coordX, coordY, 5, sectorWidth - 2);
             if (star.m_exists)
             {
-                sf::CircleShape tmp(star.m_size / 2);
+                sf::CircleShape tmp(star.m_size / 2 - 1);
                 tmp.setPosition(x * sectorWidth + sectorWidth / 2 - tmp.getRadius(), y * sectorWidth + sectorWidth / 2 - tmp.getRadius());
                 tmp.setFillColor(*star.m_pColor);
                 window->draw(tmp);

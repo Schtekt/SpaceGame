@@ -2,7 +2,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include "LehmerRand.h"
 #include <vector>
-
+#include <algorithm>
 struct Col
 {
 	static sf::Color starColors[7];
@@ -21,7 +21,7 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 
 	if (!m_exists)
 		return;
-	m_size = (float)lehm->Rand(3, 35);
+	m_size = (float)lehm->Rand(10, 35);
 	int rand = lehm->Rand(0, 6);
 	m_pColor = &starColors[rand];
 
@@ -32,7 +32,7 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 
 		for (int i = 0; i < m_nrOfPlanets; i++)
 		{
-			m_pPlanets[i].size = lehm->Rand(3, 20);
+			m_pPlanets[i].size = lehm->Rand(3, std::min(m_size, 20.f));
 			m_pPlanets[i].color = &planetColors[lehm->Rand(0,7)];
 		}
 
