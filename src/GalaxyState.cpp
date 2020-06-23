@@ -12,7 +12,8 @@ GalaxyState::GalaxyState()
     m_mousePosX = 0;
     m_mousePosY = 0;
     m_font = new sf::Font();
-    m_font->loadFromFile("C:\\Windows\\Fonts\\Ebrima.ttf");
+    char* systemDrive = getenv("WinDir");
+    m_font->loadFromFile(std::string(systemDrive) + "\\Fonts\\Ebrima.ttf");
 }
 
 GalaxyState::~GalaxyState()
@@ -22,6 +23,7 @@ GalaxyState::~GalaxyState()
 
 void GalaxyState::Update(float dt,sf::RenderWindow* window)
 {
+    //Input
     sf::Event event;
     if (window->hasFocus())
     {
@@ -66,6 +68,10 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             }
         }
     }
+    //Other Stuff
+
+
+
 
 }
 
