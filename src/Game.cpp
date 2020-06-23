@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "GalaxyState.h"
+#include "Config.h"
 
 unsigned int width = 720;
 unsigned int height = 720;
 
 Game::Game()
 {
-	m_pWindow = new sf::RenderWindow(sf::VideoMode(width, height), "Another space game!");
+	m_pWindow = new sf::RenderWindow(sf::VideoMode(Config::getInstance().getWindowSizeWidth(), Config::getInstance().getWindowSizeHeight()), "Another space game!");
 	state = new GalaxyState();
 }
 

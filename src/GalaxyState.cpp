@@ -12,8 +12,8 @@ GalaxyState::GalaxyState()
     m_mousePosX = 0;
     m_mousePosY = 0;
     m_font = new sf::Font();
-    char* systemDrive = getenv("WinDir");
-    m_font->loadFromFile(std::string(systemDrive) + "\\Fonts\\Ebrima.ttf");
+    char* winDir = getenv("WinDir"); //Get the window directory
+    m_font->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
 }
 
 GalaxyState::~GalaxyState()
