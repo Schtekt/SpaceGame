@@ -47,6 +47,7 @@ void Ship::Update(int offsetX, int offsetY, float dt, sf::RenderWindow* window)
 	else
 	{
 		m_pSprite->setTexture(*m_pTex);
+		m_pSprite->setTextureRect(sf::IntRect(0, 0, m_pMovTex->getSize().x, m_pMovTex->getSize().y));
 		m_textureTimer = 0.f;
 	}
 	m_pSprite->setPosition(std::roundf(m_posX - offsetX), std::roundf(m_posY - offsetY));
