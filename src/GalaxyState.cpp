@@ -58,7 +58,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             galMousePos /= sectorWidth;
             galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
 
-            m_pShip->Move(galMousePos.x * sectorWidth, galMousePos.y * sectorWidth);
+            m_pShip->Move(galMousePos.x * sectorWidth + sectorWidth / 2, galMousePos.y * sectorWidth + sectorWidth / 2);
 
             if (!m_seletectedStar)
                 delete m_seletectedStar;
