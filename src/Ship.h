@@ -23,12 +23,17 @@ private:
 	int m_targetX;
 	int m_targetY;
 
+	float m_maxTravelDist;
+
 public:
 	Ship(int posX, int posY, const char* texturePath);
 	~Ship();
 	void Move(int posX, int posY);
 	void Update(int offsetX, int offsetY, float dt, sf::RenderWindow* window);
 	void Render(sf::RenderWindow* window);
+	void GetPosition(int& x, int& y);
+	float GetMaxTravelDist();
+	bool isMoving();
 };
 
 #endif

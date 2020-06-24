@@ -3,7 +3,7 @@
 #include <math.h>
 #define _USE_MATH_DEFINES
 Ship::Ship(int posX, int posY, const char* texturePath): m_posX(posX), m_posY(posY), m_targetX(posX),
-m_targetY(posY), m_angle(0.0f), m_pTex(new sf::Texture), m_pSprite(new sf::Sprite), m_speed(50.f)
+m_targetY(posY), m_angle(0.0f), m_pTex(new sf::Texture), m_pSprite(new sf::Sprite), m_speed(50.f), m_maxTravelDist(9.f)
 {
 	m_pTex->loadFromFile(texturePath);
 	m_pSprite->setTexture(*m_pTex, true);
@@ -35,10 +35,26 @@ void Ship::Update(int offsetX, int offsetY, float dt, sf::RenderWindow* window)
 
 		m_pSprite->setRotation( (movVec.x < 0.0f ? 1 : -1)* (acos(movVec.y)/ (2 * 3.14159265358979323846))*360 + 180);
 	}
-	m_pSprite->setPosition(std::roundf(m_posX) - offsetX, std::roundf(m_posY) - offsetY);
+	m_pSprite->setPosition(std::roundf(m_posX - offsetX), std::roundf(m_posY - offsetY));
 }
 
 void Ship::Render(sf::RenderWindow* window)
 {
 	window->draw(*m_pSprite);
+}
+
+void Ship::GetPosition(int& x, int& y)
+{
+	x = m_posX;
+	y = m_posY;
+}
+
+float Ship::GetMaxTravelDist()
+{
+	return m_maxTravelDist;
+}
+
+bool Ship::isMoving()
+{
+	return roundf(m_posX) != m_targetX || roundf(m_posY) != m_targetY;
 }

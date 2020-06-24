@@ -2,7 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
 #include "Ship.h"
-GalaxyState::GalaxyState() : m_pShip(new Ship(1,-1, "..//resources//spaceship.png")), m_grid(false)
+GalaxyState::GalaxyState() : m_pShip(new Ship(1,-1, "..//resources//spaceship.png")), m_grid(false), m_pSeletectedStar(nullptr)
 {
     m_galaxyOffsetX = 1;
     m_galaxyOffsetY = -1;
@@ -34,6 +34,26 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
                 window->close();
             }
         }
+
+
+        sf::Vector2i shipPos;
+        m_pShip->GetPosition(shipPos.x, shipPos.y);
+        shipPos.x = roundf(shipPos.x / m_sectorsOnScreen);
+        shipPos.y = roundf(shipPos.y / m_sectorsOnScreen);
+        sf::Vector2i diff;
+        diff.x = shipPos.x - m_galaxyOffsetX - m_sectorsOnScreen / 2;
+        diff.y = shipPos.y - m_galaxyOffsetY - m_sectorsOnScreen / 2;
+        float len = sqrtf(diff.x * diff.x + diff.y * diff.y);
+
+        if (len > 10)
+        {
+            m_galaxyOffsetX += diff.x * (len - 10) / len;
+            m_galaxyOffsetY += diff.y * (len - 10) / len;
+
+            m_galaxyOffsetX = roundf(m_galaxyOffsetX);
+            m_galaxyOffsetY = roundf(m_galaxyOffsetY);
+        }
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
         {
             m_galaxyOffsetX += 30 * dt;
@@ -51,6 +71,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             m_galaxyOffsetY -= 30 * dt;
         }
 
+
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
@@ -58,20 +79,33 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             galMousePos /= sectorWidth;
             galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
 
-            m_pShip->Move(galMousePos.x * sectorWidth + sectorWidth / 2, galMousePos.y * sectorWidth + sectorWidth / 2);
 
-            if (!m_seletectedStar)
-                delete m_seletectedStar;
+            if (!m_pSeletectedStar)
+                delete m_pSeletectedStar;
 
-            m_seletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
+            m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
 
-            if (m_seletectedStar->m_exists)
+            if (m_pSeletectedStar->m_exists)
             {
-                m_selected = true;
-                m_selectedPosX = galMousePos.x;
-                m_selectedPosY = galMousePos.y;
+                sf::Vector2i travelDiff = galMousePos - shipPos;
+                float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
+                if (travelLength <= m_pShip->GetMaxTravelDist())
+                {
+                    m_pShip->Move(galMousePos.x * sectorWidth + sectorWidth / 2, galMousePos.y * sectorWidth + sectorWidth / 2);
+
+                    m_selectedPosX = galMousePos.x;
+                    m_selectedPosY = galMousePos.y;
+                }
             }
         }
+
+        if (m_pSeletectedStar && !m_pShip->isMoving())
+        {
+            if (m_pSeletectedStar->m_exists)
+                m_selected = true;
+        }
+        else
+            m_selected = false;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {

@@ -26,7 +26,7 @@ private:
 	bool m_selected;
 	int m_selectedPosX;
 	int m_selectedPosY;
-	Star* m_seletectedStar;
+	Star* m_pSeletectedStar;
 	Ship* m_pShip;
 
 	bool m_grid;
