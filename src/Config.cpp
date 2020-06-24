@@ -1,7 +1,8 @@
 #include "Config.h"
 #include <fstream>
 #include <iostream>
-
+#include <algorithm>
+#include <cctype>
 enum {
 	INVALID,
 	WINDOW_HEIGHT,
