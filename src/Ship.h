@@ -18,8 +18,7 @@ private:
 
 	float m_posX;
 	float m_posY;
-
-	float m_angle;
+	float m_secModifier;
 
 	int m_targetX;
 	int m_targetY;
@@ -27,7 +26,7 @@ private:
 	float m_maxTravelDist;
 	float m_textureTimer;
 public:
-	Ship(int posX, int posY, const char* texturePath, const char* movTexPath);
+	Ship(int posX, int posY, int nrOfSectors, const char* texturePath, const char* movTexPath);
 	~Ship();
 	void Move(int posX, int posY);
 	void Update(int offsetX, int offsetY, float dt, sf::RenderWindow* window);

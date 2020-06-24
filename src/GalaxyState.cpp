@@ -2,15 +2,10 @@
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
 #include "Ship.h"
-GalaxyState::GalaxyState() : m_pShip(new Ship(1,-1, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_grid(false), m_pSeletectedStar(nullptr)
+GalaxyState::GalaxyState() : m_sectorsOnScreen(30), m_grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
+m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0)
 {
-    m_galaxyOffsetX = 1;
-    m_galaxyOffsetY = -1;
-    m_sectorsOnScreen = 30;
-    m_selected = false;
-
-    m_mousePosX = 0;
-    m_mousePosY = 0;
+   
     m_font = new sf::Font();
     char* winDir = getenv("WinDir"); //Get the window directory
     m_font->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
@@ -38,8 +33,6 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
 
         sf::Vector2i shipPos;
         m_pShip->GetPosition(shipPos.x, shipPos.y);
-        shipPos.x = roundf(shipPos.x / m_sectorsOnScreen);
-        shipPos.y = roundf(shipPos.y / m_sectorsOnScreen);
         sf::Vector2i diff;
         diff.x = shipPos.x - m_galaxyOffsetX - m_sectorsOnScreen / 2;
         diff.y = shipPos.y - m_galaxyOffsetY - m_sectorsOnScreen / 2;
@@ -91,7 +84,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
                 float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
                 if (travelLength <= m_pShip->GetMaxTravelDist())
                 {
-                    m_pShip->Move(galMousePos.x * sectorWidth + sectorWidth / 2, galMousePos.y * sectorWidth + sectorWidth / 2);
+                    m_pShip->Move(galMousePos.x, galMousePos.y);
 
                     m_selectedPosX = galMousePos.x;
                     m_selectedPosY = galMousePos.y;
@@ -118,7 +111,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
     }
     //Other Stuff
     int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
-    m_pShip->Update(m_galaxyOffsetX * sectorWidth, m_galaxyOffsetY * sectorWidth, dt, window);
+    m_pShip->Update((int)roundf(m_galaxyOffsetX),(int)roundf(m_galaxyOffsetY),dt, window);
 
 
 
@@ -182,12 +175,33 @@ void GalaxyState::Render(sf::RenderWindow* window)
             };
             window->draw(vertices, 2, sf::Lines);
         }
+
+        sf::CircleShape shipTrav(m_pShip->GetMaxTravelDist() * sectorWidth);
+        sf::Vector2i shipPos;
+        m_pShip->GetPosition(shipPos.x, shipPos.y);
+        shipTrav.setOrigin(shipTrav.getRadius(), shipTrav.getRadius());
+        shipTrav.setPosition((shipPos.x - m_galaxyOffsetX + 0.5)* sectorWidth, (shipPos.y -m_galaxyOffsetY + 0.5)* sectorWidth);
+        shipTrav.setFillColor(sf::Color::Transparent);
+        shipTrav.setOutlineColor(sf::Color::Red);
+        shipTrav.setOutlineThickness(2);
+        window->draw(shipTrav);
+
     }
     sf::Text coordinatesText;
     coordinatesText.setFont(*m_font);
     coordinatesText.setPosition(sf::Vector2f(0, 0));
     coordinatesText.setString(std::to_string((int)std::roundf(m_galaxyOffsetX)) + ", " + std::to_string((int)std::roundf(m_galaxyOffsetY)));
     window->draw(coordinatesText);
+
+    sf::Vector2i shipPos;
+    m_pShip->GetPosition(shipPos.x, shipPos.y);
+
+    sf::Text shipPosText;
+    shipPosText.setFont(*m_font);
+    shipPosText.setColor(sf::Color::Green);
+    shipPosText.setPosition(sf::Vector2f(0, coordinatesText.getLocalBounds().height));
+    shipPosText.setString(std::to_string(shipPos.x) + ", " + std::to_string(shipPos.y));
+    window->draw(shipPosText);
 
     if (m_selected)
     {
