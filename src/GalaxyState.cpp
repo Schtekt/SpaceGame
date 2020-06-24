@@ -2,7 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
 #include "Ship.h"
-GalaxyState::GalaxyState() : m_pShip(new Ship(1,-1, "..//resources//spaceship.png")), m_grid(false), m_pSeletectedStar(nullptr)
+GalaxyState::GalaxyState() : m_pShip(new Ship(1,-1, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_grid(false), m_pSeletectedStar(nullptr)
 {
     m_galaxyOffsetX = 1;
     m_galaxyOffsetY = -1;

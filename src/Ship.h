@@ -14,6 +14,7 @@ private:
 	float m_speed;
 	sf::Sprite* m_pSprite;
 	sf::Texture* m_pTex;
+	sf::Texture* m_pMovTex;
 
 	float m_posX;
 	float m_posY;
@@ -24,9 +25,9 @@ private:
 	int m_targetY;
 
 	float m_maxTravelDist;
-
+	float m_textureTimer;
 public:
-	Ship(int posX, int posY, const char* texturePath);
+	Ship(int posX, int posY, const char* texturePath, const char* movTexPath);
 	~Ship();
 	void Move(int posX, int posY);
 	void Update(int offsetX, int offsetY, float dt, sf::RenderWindow* window);
