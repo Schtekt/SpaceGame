@@ -72,16 +72,16 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             galMousePos /= sectorWidth;
             galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
 
-            if (!m_pSeletectedStar)
-                delete m_pSeletectedStar;
-
-            m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
-
-            if (m_pSeletectedStar->m_exists)
+            sf::Vector2i travelDiff = galMousePos - shipPos;
+            float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
+            if (travelLength <= m_pShip->GetMaxTravelDist())
             {
-                sf::Vector2i travelDiff = galMousePos - shipPos;
-                float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
-                if (travelLength <= m_pShip->GetMaxTravelDist())
+                if (!m_pSeletectedStar)
+                    delete m_pSeletectedStar;
+
+                m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
+
+                if (m_pSeletectedStar->m_exists)
                 {
                     m_pShip->Move(galMousePos.x, galMousePos.y);
 
