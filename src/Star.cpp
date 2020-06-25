@@ -27,12 +27,12 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 
 	if (genFullSystem)
 	{
-		m_nrOfPlanets = lehm->Rand(0, 10);
+		m_nrOfPlanets = lehm->Rand(1, 10);
 		m_pPlanets = new planet[m_nrOfPlanets];
 
 		for (int i = 0; i < m_nrOfPlanets; i++)
 		{
-			m_pPlanets[i].size = lehm->Rand(3, std::min(m_size, 20.f));
+			m_pPlanets[i].size = lehm->Rand(3, m_size - 1);
 			m_pPlanets[i].color = &planetColors[lehm->Rand(0,7)];
 		}
 

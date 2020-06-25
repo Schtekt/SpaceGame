@@ -214,11 +214,14 @@ void GalaxyState::Render(sf::RenderWindow* window)
         tmp.setFillColor(*star.m_pColor);
         tmp.setPosition(0, tex.getSize().y / 2 - tmp.getRadius());
         tex.draw(tmp);
+
+        int currPos = tmp.getRadius()*2 + 20;
         for (int i = 0; i < star.m_nrOfPlanets; i++)
         {
             sf::CircleShape planTmp(star.m_pPlanets[i].size);
             planTmp.setFillColor(*star.m_pPlanets[i].color);
-            planTmp.setPosition(tmp.getRadius() * 2 + 10 + i*40, tex.getSize().y / 2 - star.m_pPlanets[i].size / 2);
+            planTmp.setPosition(currPos, tex.getSize().y / 2 - planTmp.getRadius());
+            currPos += planTmp.getRadius()*2 + 20;
             tex.draw(planTmp);
         }
 
