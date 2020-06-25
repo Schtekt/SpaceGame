@@ -65,13 +65,12 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         }
 
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !m_pShip->isMoving())
         {
             int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
             sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
             galMousePos /= sectorWidth;
             galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
-
 
             if (!m_pSeletectedStar)
                 delete m_pSeletectedStar;
@@ -82,7 +81,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             {
                 sf::Vector2i travelDiff = galMousePos - shipPos;
                 float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
-                if (travelLength <= m_pShip->GetMaxTravelDist() && !m_pShip->isMoving())
+                if (travelLength <= m_pShip->GetMaxTravelDist())
                 {
                     m_pShip->Move(galMousePos.x, galMousePos.y);
 
@@ -140,7 +139,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
                 tmp.setFillColor(*star.m_pColor);
                 window->draw(tmp);
 
-                if (galMousePos == sf::Vector2i(coordX, coordY))
+                if (galMousePos == sf::Vector2i(coordX, coordY) || (m_selectedPosX == coordX && m_selectedPosY == coordY))
                 {
                     sf::CircleShape highlight(tmp.getRadius() + 1);
                     highlight.setPosition(x * sectorWidth + sectorWidth / 2 - tmp.getRadius() - 1, y * sectorWidth + sectorWidth / 2 - tmp.getRadius() - 1);
