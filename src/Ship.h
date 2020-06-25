@@ -25,6 +25,8 @@ private:
 
 	float m_maxTravelDist;
 	float m_textureTimer;
+
+	bool m_moving;
 public:
 	Ship(int posX, int posY, int nrOfSectors, const char* texturePath, const char* movTexPath);
 	~Ship();

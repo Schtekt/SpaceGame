@@ -82,7 +82,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             {
                 sf::Vector2i travelDiff = galMousePos - shipPos;
                 float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
-                if (travelLength <= m_pShip->GetMaxTravelDist())
+                if (travelLength <= m_pShip->GetMaxTravelDist() && !m_pShip->isMoving())
                 {
                     m_pShip->Move(galMousePos.x, galMousePos.y);
 

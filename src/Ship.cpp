@@ -3,7 +3,8 @@
 #include <math.h>
 #define _USE_MATH_DEFINES
 Ship::Ship(int posX, int posY,int nrOfSectors, const char* texturePath, const char* movTexPath): m_posX(posX), m_posY(posY), m_targetX(posX),
-m_targetY(posY), m_pTex(new sf::Texture), m_pMovTex(new sf::Texture), m_pSprite(new sf::Sprite), m_speed(10.f), m_maxTravelDist(9.f), m_textureTimer(0.f), m_secModifier(-nrOfSectors)
+m_targetY(posY), m_pTex(new sf::Texture), m_pMovTex(new sf::Texture), m_pSprite(new sf::Sprite), m_speed(10.f), m_maxTravelDist(9.f), m_textureTimer(0.f), m_secModifier(-nrOfSectors),
+m_moving(false)
 {
 	m_pTex->loadFromFile(texturePath);
 	m_pMovTex->loadFromFile(movTexPath);
@@ -45,9 +46,11 @@ void Ship::Update(int offsetX, int offsetY, float dt, sf::RenderWindow* window)
 			m_pSprite->setTextureRect(sf::IntRect(0, 0, m_pMovTex->getSize().x / 2, m_pMovTex->getSize().y));
 		else
 			m_pSprite->setTextureRect(sf::IntRect(m_pMovTex->getSize().x / 2, 0, m_pMovTex->getSize().x, m_pMovTex->getSize().y));
+		m_moving = true;
 	}
 	else
 	{
+		m_moving = false;
 		m_pSprite->setTexture(*m_pTex);
 		m_pSprite->setTextureRect(sf::IntRect(0, 0, m_pMovTex->getSize().x, m_pMovTex->getSize().y));
 		m_textureTimer = 0.f;
@@ -73,5 +76,5 @@ float Ship::GetMaxTravelDist()
 
 bool Ship::isMoving()
 {
-	return roundf(m_posX) != m_targetX || roundf(m_posY) != m_targetY;
+	return m_moving;
 }
