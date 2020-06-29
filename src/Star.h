@@ -1,5 +1,6 @@
 #ifndef STAR_H
 #define STAR_H
+#include "Resources.h"
 namespace sf
 {
     class Color;
@@ -10,6 +11,7 @@ struct planet
 {
     int size;
     sf::Color* color;
+	Resource resource;
 };
 
 
