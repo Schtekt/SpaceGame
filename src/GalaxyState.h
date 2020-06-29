@@ -1,7 +1,6 @@
 #ifndef GALAXYSTATE_H
 #define GALAXYSTATE_H
 #include "GameState.h"
-#include "Star.h"
 
 namespace sf
 {
@@ -9,7 +8,8 @@ namespace sf
 }
 
 class Ship;
-
+class Star;
+class Game;
 class GalaxyState : public GameState
 {
 private:
@@ -31,7 +31,7 @@ private:
 
 	bool m_grid;
 public:
-	GalaxyState();
+	GalaxyState(Game* game);
 	~GalaxyState();
 	virtual void Update(float dt, sf::RenderWindow* window);
 	virtual void Render(sf::RenderWindow* window);

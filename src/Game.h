@@ -11,7 +11,9 @@ class Game
 private:
 	sf::RenderWindow* m_pWindow;
 	GameState* m_pState;
+	void changeState(GameState* state);
 public:
+	friend class GameState;
 	Game();
 	~Game();
 	void Run();

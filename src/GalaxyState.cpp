@@ -2,10 +2,12 @@
 #include "SFML/Graphics.hpp"
 #include "LehmerRand.h"
 #include "Ship.h"
-GalaxyState::GalaxyState() : m_sectorsOnScreen(30), m_grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
-m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0)
+#include "Star.h"
+#include "Game.h"
+#include "StarSystemState.h"
+GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
+m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game)
 {
-   
     m_font = new sf::Font();
     char* winDir = getenv("WinDir"); //Get the window directory
     m_font->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
@@ -63,6 +65,11 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         {
             m_galaxyOffsetY -= 30 * dt;
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && m_pSeletectedStar && !m_pShip->isMoving())
+        {
+            StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar);
+            GameState::ChangeState(systemState);
+        }
 
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !m_pShip->isMoving())
@@ -79,7 +86,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
                 if (!m_pSeletectedStar)
                     delete m_pSeletectedStar;
 
-                m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1);
+                m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1, true);
 
                 if (m_pSeletectedStar->m_exists)
                 {

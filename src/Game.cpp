@@ -7,10 +7,15 @@
 unsigned int width = 720;
 unsigned int height = 720;
 
+void Game::changeState(GameState* state)
+{
+	m_pState = state;
+}
+
 Game::Game()
 {
 	m_pWindow = new sf::RenderWindow(sf::VideoMode(Config::getInstance().getWindowSizeWidth(), Config::getInstance().getWindowSizeHeight()), "Another space game!");
-	m_pState = new GalaxyState();
+	m_pState = new GalaxyState(this);
 }
 
 Game::~Game()
