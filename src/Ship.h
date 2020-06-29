@@ -36,6 +36,7 @@ public:
 	void GetPosition(int& x, int& y);
 	float GetMaxTravelDist();
 	bool isMoving();
+	void SetSpeed(float speed);
 };
 
 #endif

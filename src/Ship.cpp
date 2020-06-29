@@ -78,3 +78,8 @@ bool Ship::isMoving()
 {
 	return m_moving;
 }
+
+void Ship::SetSpeed(float speed)
+{
+	m_speed = speed;
+}
