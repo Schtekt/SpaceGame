@@ -118,9 +118,6 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
     //Other Stuff
     int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
     m_pShip->Update((int)roundf(m_galaxyOffsetX),(int)roundf(m_galaxyOffsetY),dt, window);
-
-
-
 }
 
 void GalaxyState::Render(sf::RenderWindow* window)
