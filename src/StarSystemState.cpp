@@ -47,6 +47,11 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
             currPos += tmp.size * 3 + 20;
         }
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
+    {
+        PopState();
+    }
 }
 
 void StarSystemState::Render(sf::RenderWindow* window)

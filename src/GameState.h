@@ -14,6 +14,7 @@ protected:
 public:
 	GameState(Game* game);
 	void ChangeState(GameState* state);
+	void PopState();
 	virtual void Update(float dt, sf::RenderWindow* window) = 0;
 	virtual void Render(sf::RenderWindow* window) = 0;
 };
