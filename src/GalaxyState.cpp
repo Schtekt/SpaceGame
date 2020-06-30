@@ -8,14 +8,14 @@
 GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
 m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game)
 {
-    m_font = new sf::Font();
+    m_pFont = new sf::Font();
     char* winDir = getenv("WinDir"); //Get the window directory
-    m_font->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
+    m_pFont->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
 }
 
 GalaxyState::~GalaxyState()
 {
-    delete m_font;
+    delete m_pFont;
 }
 
 void GalaxyState::Update(float dt,sf::RenderWindow* window)
@@ -67,7 +67,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && m_pSeletectedStar && !m_pShip->isMoving())
         {
-            StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar);
+            StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar, m_pFont);
             GameState::ChangeState(systemState);
         }
 
@@ -191,7 +191,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
 
     }
     sf::Text coordinatesText;
-    coordinatesText.setFont(*m_font);
+    coordinatesText.setFont(*m_pFont);
     coordinatesText.setPosition(sf::Vector2f(0, 0));
     coordinatesText.setString(std::to_string((int)std::roundf(m_galaxyOffsetX)) + ", " + std::to_string((int)std::roundf(m_galaxyOffsetY)));
     window->draw(coordinatesText);
@@ -200,7 +200,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
     m_pShip->GetPosition(shipPos.x, shipPos.y);
 
     sf::Text shipPosText;
-    shipPosText.setFont(*m_font);
+    shipPosText.setFont(*m_pFont);
     shipPosText.setColor(sf::Color::Green);
     shipPosText.setPosition(sf::Vector2f(0, coordinatesText.getLocalBounds().height));
     shipPosText.setString(std::to_string(shipPos.x) + ", " + std::to_string(shipPos.y));
@@ -212,6 +212,14 @@ void GalaxyState::Render(sf::RenderWindow* window)
         tex.create(window->getSize().x, window->getSize().y / 5);
         tex.clear(sf::Color::Blue);
         Star star(m_selectedPosX, m_selectedPosY, 3, 20, true);
+
+		sf::Text enterText;
+		enterText.setFont(*m_pFont);
+		enterText.setString("Press ENTER to enter star system");
+		enterText.setOrigin(enterText.getLocalBounds().width, 0);
+		enterText.setScale(1, -1);
+		enterText.setPosition(window->getSize().x - 10, tex.getSize().y);
+		tex.draw(enterText);
 
         sf::CircleShape tmp(star.m_size * 2);
         tmp.setFillColor(*star.m_pColor);

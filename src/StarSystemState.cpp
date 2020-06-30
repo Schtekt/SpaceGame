@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ship.h"
 #include "Config.h"
-StarSystemState::StarSystemState(Game* game, Star* starSystem): GameState(game), m_pStarSystem(starSystem)
+StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font): GameState(game), m_pStarSystem(starSystem), m_pFont(font)
 {
     m_pShip = new Ship(m_pStarSystem->m_size * 4 + 5, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size, Config::getInstance().getWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
     m_pShip->SetSpeed(100);
@@ -57,6 +57,12 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
 void StarSystemState::Render(sf::RenderWindow* window)
 {
 	window->clear();
+
+	sf::Text exitText;
+	exitText.setString("Press BACKSPACE to exit star system");
+	exitText.setFont(*m_pFont);
+	window->draw(exitText);
+
 	sf::CircleShape star;
 	star.setRadius(m_pStarSystem->m_size * 2);
 	star.setFillColor(*m_pStarSystem->m_pColor);

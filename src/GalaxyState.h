@@ -21,7 +21,7 @@ private:
 	int m_mousePosX;
 	int m_mousePosY;
 
-	sf::Font* m_font;
+	sf::Font* m_pFont;
 
 	bool m_selected;
 	int m_selectedPosX;
