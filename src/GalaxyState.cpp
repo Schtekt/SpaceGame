@@ -237,3 +237,21 @@ void GalaxyState::Render(sf::RenderWindow* window)
     m_pShip->Render(window);
     window->display();
 }
+
+void GalaxyState::addVisitedPlanet(int nr)
+{
+    visitedPlanet tmp;
+    tmp.galaxyCoordX = m_selectedPosX;
+    tmp.galaxyCoordY = m_selectedPosY;
+    tmp.planetNr = nr;
+
+    for (int i = 0; i < m_visitedPlanets.size(); i++)
+    {
+        if (m_visitedPlanets[i].galaxyCoordX == tmp.galaxyCoordX && m_visitedPlanets[i].galaxyCoordY == tmp.galaxyCoordY
+            && m_visitedPlanets[i].planetNr == tmp.planetNr)
+        {
+            return;
+        }
+    }
+    m_visitedPlanets.push_back(tmp);
+}

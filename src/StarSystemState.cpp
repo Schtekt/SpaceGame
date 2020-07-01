@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ship.h"
 #include "Config.h"
+#include "GalaxyState.h"
 StarSystemState::StarSystemState(Game* game, Star* starSystem): GameState(game), m_pStarSystem(starSystem)
 {
     m_pShip = new Ship(m_pStarSystem->m_size * 4 + 5, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size, Config::getInstance().getWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
@@ -43,6 +44,26 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
             if (dist <= tmp.size)
             {
                 m_pShip->Move(planPos.x + tmp.size, planPos.y + tmp.size);
+            }
+            currPos += tmp.size * 3 + 20;
+        }
+    }
+
+    int currPos = m_pStarSystem->m_size * 6 + 20;
+    if (!m_pShip->isMoving())
+    {
+        for (unsigned int i = 0; i < m_pStarSystem->m_nrOfPlanets; i++)
+        {
+            planet tmp = m_pStarSystem->m_pPlanets[i];
+
+            sf::Vector2i shipPos;
+            m_pShip->GetPosition(shipPos.x, shipPos.y);
+            sf::Vector2i planPos = sf::Vector2i(currPos, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size + tmp.size);
+            sf::Vector2i diff = planPos - shipPos + sf::Vector2i(tmp.size, tmp.size);
+            float dist = sqrt(diff.x * diff.x + diff.y * diff.y);
+            if (dist <= tmp.size / 2)
+            {
+                ((GalaxyState*)m_pLastState)->addVisitedPlanet(i);
             }
             currPos += tmp.size * 3 + 20;
         }

@@ -1,7 +1,7 @@
 #ifndef GALAXYSTATE_H
 #define GALAXYSTATE_H
 #include "GameState.h"
-
+#include <vector>
 namespace sf
 {
 	class Font;
@@ -10,6 +10,14 @@ namespace sf
 class Ship;
 class Star;
 class Game;
+
+struct visitedPlanet
+{
+	int galaxyCoordX;
+	int galaxyCoordY;
+	unsigned int planetNr;
+};
+
 class GalaxyState : public GameState
 {
 private:
@@ -28,13 +36,18 @@ private:
 	int m_selectedPosY;
 	Star* m_pSeletectedStar;
 	Ship* m_pShip;
-
+	
 	bool m_grid;
+	
+	std::vector<visitedPlanet> m_visitedPlanets;
+
 public:
 	GalaxyState(Game* game);
 	~GalaxyState();
 	virtual void Update(float dt, sf::RenderWindow* window);
 	virtual void Render(sf::RenderWindow* window);
+
+	void addVisitedPlanet(int nr);
 };
 
 #endif
