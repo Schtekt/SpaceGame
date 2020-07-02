@@ -17,7 +17,7 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 	if (!m_exists)
 		return;
 	m_size = (float)lehm->Rand(10, 35);
-	int rand = lehm->Rand(0, 7);
+	int rand = lehm->Rand(0, 6);
 	m_pColor = &starColors[rand];
 
 	if (genFullSystem)
@@ -28,8 +28,8 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 		for (int i = 0; i < m_nrOfPlanets; i++)
 		{
 			m_pPlanets[i].size = lehm->Rand(3, m_size - 1);
-			m_pPlanets[i].color = &planetColors[lehm->Rand(0,8)];
-			m_pPlanets[i].resource = Resource(lehm->Rand(0, 4));
+			m_pPlanets[i].color = &planetColors[lehm->Rand(0, 7)];
+			m_pPlanets[i].resource = Resource(lehm->Rand(0, 3));
 		}
 
 	}

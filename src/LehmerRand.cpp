@@ -24,7 +24,7 @@ uint32_t LehmerRand::Rand()
 
 int LehmerRand::Rand(int min, int max)
 {
-    return (Rand() % (max - min)) + min;
+    return (Rand() % (max + 1 - min)) + min;
 }
 
 LehmerRand* LehmerRand::GetInstance()
