@@ -19,10 +19,10 @@ struct planet
 struct Star
 {
 
-    bool m_exists = false;
-    float m_size = .0f;
+    bool m_Exists = false;
+    float m_Size = .0f;
     sf::Color* m_pColor;
-    int m_nrOfPlanets;
+    int m_NrOfPlanets;
     planet* m_pPlanets;
 
     Star(int x, int y, int minSize, int maxSize, bool genFullSystem = false);

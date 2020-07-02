@@ -21,12 +21,12 @@ Config::Config()
 			variable.erase(std::remove_if(variable.begin(), variable.end(), std::isspace));
 			std::getline(file, value);
 
-			switch (getVariableID(variable)) {
+			switch (GetVariableID(variable)) {
 			case WINDOW_HEIGHT:
-				m_windowHeight = std::stoi(value);
+				m_WindowHeight = std::stoi(value);
 				break;
 			case WINDOW_WIDTH:
-				m_windowWidth = std::stoi(value);
+				m_WindowWidth = std::stoi(value);
 				break;
 			default:
 				std::cout << "Unknown variable \"" << variable << "\" with value \"" << value << "\"";
@@ -36,7 +36,7 @@ Config::Config()
 	}
 }
 
-int Config::getVariableID(std::string str)
+int Config::GetVariableID(std::string str)
 {
 	if (std::strcmp(str.c_str(), "windowSizeWidth") == 0) return WINDOW_WIDTH;
 	if (std::strcmp(str.c_str(), "windowSizeHeight") == 0) return WINDOW_HEIGHT;
@@ -44,12 +44,12 @@ int Config::getVariableID(std::string str)
 	return INVALID;
 }
 
-int Config::getWindowSizeWidth()
+int Config::GetWindowSizeWidth()
 {
-	return m_windowWidth;
+	return m_WindowWidth;
 }
 
-int Config::getWindowSizeHeight()
+int Config::GetWindowSizeHeight()
 {
-	return m_windowHeight;
+	return m_WindowHeight;
 }

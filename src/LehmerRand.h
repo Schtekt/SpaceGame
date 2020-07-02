@@ -4,7 +4,7 @@
 class LehmerRand
 {
 private:
-	int m_seed;
+	int m_Seed;
 	LehmerRand();
 
 public:

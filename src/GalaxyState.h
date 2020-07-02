@@ -32,13 +32,13 @@ private:
 
 	sf::Font* m_pFont;
 
-	bool m_selected;
-	int m_selectedPosX;
-	int m_selectedPosY;
+	bool m_Selected;
+	int m_SelectedPosX;
+	int m_SelectedPosY;
 	Star* m_pSeletectedStar;
 	Ship* m_pShip;
 	
-	bool m_grid;
+	bool m_Grid;
 	
 	std::vector<visitedPlanet> m_visitedPlanets;
 	Cargo* m_pCargo;
@@ -48,8 +48,8 @@ public:
 	virtual void Update(float dt, sf::RenderWindow* window);
 	virtual void Render(sf::RenderWindow* window);
 
-	bool addVisitedPlanet(int nr);
-	bool isPlanetVisited(int nr);
+	bool AddVisitedPlanet(int nr);
+	bool IsPlanetVisited(int nr);
 };
 
 #endif

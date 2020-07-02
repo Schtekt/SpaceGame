@@ -10,23 +10,23 @@ private:
 	//Init
 	Config();
 	//Other
-	int m_windowWidth;
-	int m_windowHeight;
+	int m_WindowWidth;
+	int m_WindowHeight;
 
-	int getVariableID(std::string str);
+	int GetVariableID(std::string str);
 public:
 	//Singleton Settings
 	Config(Config const&) = delete;
 	void operator=(Config const&) = delete;
 
-	static Config& getInstance() 
+	static Config& GetInstance() 
 	{
 		static Config instance;
 		return instance;
 	}
 	//Other
-	int getWindowSizeWidth();
-	int getWindowSizeHeight();
+	int GetWindowSizeWidth();
+	int GetWindowSizeHeight();
 };
 
 #endif // !CONFIG_H

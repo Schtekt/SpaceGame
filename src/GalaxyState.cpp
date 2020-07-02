@@ -7,7 +7,7 @@
 #include "StarSystemState.h"
 #include "Cargo.h"
 
-GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
+GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_Grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_Selected(false),
 m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game),m_pCargo(nullptr)
 {
     m_pFont = new sf::Font();
@@ -68,14 +68,14 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         {
             m_galaxyOffsetY -= 30 * dt;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && m_pSeletectedStar && !m_pShip->isMoving())
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && m_pSeletectedStar && !m_pShip->IsMoving())
         {
             StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar, m_pFont, m_pCargo);
             GameState::ChangeState(systemState);
         }
 
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !m_pShip->isMoving())
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !m_pShip->IsMoving())
         {
             int sectorWidth = std::min(window->getSize().x, window->getSize().y) / m_sectorsOnScreen;
             sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
@@ -91,31 +91,31 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
 
                 m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1, true);
 
-                if (m_pSeletectedStar->m_exists)
+                if (m_pSeletectedStar->m_Exists)
                 {
                     m_pShip->Move(galMousePos.x, galMousePos.y);
 
-                    m_selectedPosX = galMousePos.x;
-                    m_selectedPosY = galMousePos.y;
+                    m_SelectedPosX = galMousePos.x;
+                    m_SelectedPosY = galMousePos.y;
                 }
             }
         }
 
-        if (m_pSeletectedStar && !m_pShip->isMoving())
+        if (m_pSeletectedStar && !m_pShip->IsMoving())
         {
-            if (m_pSeletectedStar->m_exists)
-                m_selected = true;
+            if (m_pSeletectedStar->m_Exists)
+                m_Selected = true;
         }
         else
-            m_selected = false;
+            m_Selected = false;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            m_grid = true;
+            m_Grid = true;
         }
         else
         {
-            m_grid = false;
+            m_Grid = false;
         }
     }
     //Other Stuff
@@ -139,14 +139,14 @@ void GalaxyState::Render(sf::RenderWindow* window)
             int coordX = x + std::roundf(m_galaxyOffsetX);
             int coordY = y + std::roundf(m_galaxyOffsetY);
             Star star(coordX, coordY, 5, sectorWidth - 2);
-            if (star.m_exists)
+            if (star.m_Exists)
             {
-                sf::CircleShape tmp(star.m_size / 2 - 1);
+                sf::CircleShape tmp(star.m_Size / 2 - 1);
                 tmp.setPosition(x * sectorWidth + sectorWidth / 2 - tmp.getRadius(), y * sectorWidth + sectorWidth / 2 - tmp.getRadius());
                 tmp.setFillColor(*star.m_pColor);
                 window->draw(tmp);
 
-                if (galMousePos == sf::Vector2i(coordX, coordY) || (m_selectedPosX == coordX && m_selectedPosY == coordY))
+                if (galMousePos == sf::Vector2i(coordX, coordY) || (m_SelectedPosX == coordX && m_SelectedPosY == coordY))
                 {
                     sf::CircleShape highlight(tmp.getRadius() + 1);
                     highlight.setPosition(x * sectorWidth + sectorWidth / 2 - tmp.getRadius() - 1, y * sectorWidth + sectorWidth / 2 - tmp.getRadius() - 1);
@@ -159,7 +159,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
         }
     }
 
-    if (m_grid)
+    if (m_Grid)
     {
         for (int y = 0; y < m_sectorsOnScreen - 1; y++)
         {
@@ -209,12 +209,12 @@ void GalaxyState::Render(sf::RenderWindow* window)
     shipPosText.setString(std::to_string(shipPos.x) + ", " + std::to_string(shipPos.y));
     window->draw(shipPosText);
 
-    if (m_selected)
+    if (m_Selected)
     {
         sf::RenderTexture tex;
         tex.create(window->getSize().x, window->getSize().y / 5);
         tex.clear(sf::Color::Blue);
-        Star star(m_selectedPosX, m_selectedPosY, 3, 20, true);
+        Star star(m_SelectedPosX, m_SelectedPosY, 3, 20, true);
 
 		sf::Text enterText;
 		enterText.setFont(*m_pFont);
@@ -224,13 +224,13 @@ void GalaxyState::Render(sf::RenderWindow* window)
 		enterText.setPosition(window->getSize().x - 10, tex.getSize().y);
 		tex.draw(enterText);
 
-        sf::CircleShape tmp(star.m_size * 2);
+        sf::CircleShape tmp(star.m_Size * 2);
         tmp.setFillColor(*star.m_pColor);
         tmp.setPosition(0, tex.getSize().y / 2 - tmp.getRadius());
         tex.draw(tmp);
 
         int currPos = tmp.getRadius()*2 + 20;
-        for (int i = 0; i < star.m_nrOfPlanets; i++)
+        for (int i = 0; i < star.m_NrOfPlanets; i++)
         {
             sf::CircleShape planTmp(star.m_pPlanets[i].size);
             planTmp.setFillColor(*star.m_pPlanets[i].color);
@@ -250,14 +250,14 @@ void GalaxyState::Render(sf::RenderWindow* window)
     window->display();
 }
 
-bool GalaxyState::addVisitedPlanet(int nr)
+bool GalaxyState::AddVisitedPlanet(int nr)
 {
 	visitedPlanet tmp;
-	tmp.galaxyCoordX = m_selectedPosX;
-	tmp.galaxyCoordY = m_selectedPosY;
+	tmp.galaxyCoordX = m_SelectedPosX;
+	tmp.galaxyCoordY = m_SelectedPosY;
 	tmp.planetNr = nr;
 
-	if (!isPlanetVisited(nr))
+	if (!IsPlanetVisited(nr))
 	{
 		m_visitedPlanets.push_back(tmp);
 		return true;
@@ -265,11 +265,11 @@ bool GalaxyState::addVisitedPlanet(int nr)
 	return false;
 }
 
-bool GalaxyState::isPlanetVisited(int nr)
+bool GalaxyState::IsPlanetVisited(int nr)
 {
 	visitedPlanet tmp;
-	tmp.galaxyCoordX = m_selectedPosX;
-	tmp.galaxyCoordY = m_selectedPosY;
+	tmp.galaxyCoordX = m_SelectedPosX;
+	tmp.galaxyCoordY = m_SelectedPosY;
 	tmp.planetNr = nr;
 
 	for (int i = 0; i < m_visitedPlanets.size(); i++)

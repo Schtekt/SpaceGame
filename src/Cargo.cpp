@@ -24,7 +24,7 @@ Cargo::Cargo(sf::Font* font): m_pFont(font)
 	for (int i = m_resourceValues.size() - 1; i >= 0; i--)
 	{
 		offset += m_resourceValues[i].getGlobalBounds().width + 20;
-		m_resourceValues[i].setPosition(sf::Vector2f(Config::getInstance().getWindowSizeWidth() - offset, 0));
+		m_resourceValues[i].setPosition(sf::Vector2f(Config::GetInstance().GetWindowSizeWidth() - offset, 0));
 	}
 }
 

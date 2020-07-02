@@ -11,22 +11,22 @@ namespace sf
 class Ship
 {
 private:
-	float m_speed;
+	float m_Speed;
 	sf::Sprite* m_pSprite;
 	sf::Texture* m_pTex;
 	sf::Texture* m_pMovTex;
 
-	float m_posX;
-	float m_posY;
-	float m_secModifier;
+	float m_PosX;
+	float m_PosY;
+	float m_SecModifier;
 
-	int m_targetX;
-	int m_targetY;
+	int m_TargetX;
+	int m_TargetY;
 
-	float m_maxTravelDist;
-	float m_textureTimer;
+	float m_MaxTravelDist;
+	float m_TextureTimer;
 
-	bool m_moving;
+	bool m_Moving;
 public:
 	Ship(int posX, int posY, int nrOfSectors, const char* texturePath, const char* movTexPath);
 	~Ship();
@@ -35,7 +35,7 @@ public:
 	void Render(sf::RenderWindow* window);
 	void GetPosition(int& x, int& y);
 	float GetMaxTravelDist();
-	bool isMoving();
+	bool IsMoving();
 	void SetSpeed(float speed);
 };
 

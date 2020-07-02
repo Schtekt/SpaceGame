@@ -7,7 +7,7 @@
 #include "Cargo.h"
 StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font, Cargo* cargo): GameState(game), m_pStarSystem(starSystem), m_pFont(font), m_pCargo(cargo)
 {
-    m_pShip = new Ship(m_pStarSystem->m_size * 4 + 5, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size, Config::getInstance().getWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
+    m_pShip = new Ship(m_pStarSystem->m_Size * 4 + 5, Config::GetInstance().GetWindowSizeHeight() / 2 - m_pStarSystem->m_Size, Config::GetInstance().GetWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
     m_pShip->SetSpeed(100);
 	for (int i = 0; i < 4; ++i)
 	{
@@ -45,13 +45,13 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        int currPos = m_pStarSystem->m_size * 6 + 20;
-        for (unsigned int i = 0; i < m_pStarSystem->m_nrOfPlanets; i++)
+        int currPos = m_pStarSystem->m_Size * 6 + 20;
+        for (unsigned int i = 0; i < m_pStarSystem->m_NrOfPlanets; i++)
         {
             planet tmp = m_pStarSystem->m_pPlanets[i];
             
 
-            sf::Vector2i planPos = sf::Vector2i(currPos, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size + tmp.size);
+            sf::Vector2i planPos = sf::Vector2i(currPos, Config::GetInstance().GetWindowSizeHeight() / 2 - m_pStarSystem->m_Size + tmp.size);
             sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
             sf::Vector2i diff = planPos - mousePos + sf::Vector2i(tmp.size, tmp.size);
             float dist = sqrt(diff.x * diff.x + diff.y * diff.y);
@@ -65,21 +65,21 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
         }
     }
 
-    int currPos = m_pStarSystem->m_size * 6 + 20;
-    if (!m_pShip->isMoving())
+    int currPos = m_pStarSystem->m_Size * 6 + 20;
+    if (!m_pShip->IsMoving())
     {
-        for (unsigned int i = 0; i < m_pStarSystem->m_nrOfPlanets; i++)
+        for (unsigned int i = 0; i < m_pStarSystem->m_NrOfPlanets; i++)
         {
             planet tmp = m_pStarSystem->m_pPlanets[i];
 
             sf::Vector2i shipPos;
             m_pShip->GetPosition(shipPos.x, shipPos.y);
-            sf::Vector2i planPos = sf::Vector2i(currPos, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size + tmp.size);
+            sf::Vector2i planPos = sf::Vector2i(currPos, Config::GetInstance().GetWindowSizeHeight() / 2 - m_pStarSystem->m_Size + tmp.size);
             sf::Vector2i diff = planPos - shipPos + sf::Vector2i(tmp.size, tmp.size);
             float dist = sqrt(diff.x * diff.x + diff.y * diff.y);
             if (dist <= tmp.size / 2)
             {
-                if (((GalaxyState*)m_pLastState)->addVisitedPlanet(i))
+                if (((GalaxyState*)m_pLastState)->AddVisitedPlanet(i))
                 {
                     m_pCargo->AddResource(m_pStarSystem->m_pPlanets[i].resource);
                 }
@@ -104,19 +104,19 @@ void StarSystemState::Render(sf::RenderWindow* window)
 	window->draw(exitText);
 
 	sf::CircleShape star;
-	star.setRadius(m_pStarSystem->m_size * 2);
+	star.setRadius(m_pStarSystem->m_Size * 2);
 	star.setFillColor(*m_pStarSystem->m_pColor);
-    star.setPosition(0, Config::getInstance().getWindowSizeHeight() / 2 - star.getRadius() / 2);
+    star.setPosition(0, Config::GetInstance().GetWindowSizeHeight() / 2 - star.getRadius() / 2);
 
     int currPos = star.getRadius()*3 + 20;
 
-    for (int i = 0; i < m_pStarSystem->m_nrOfPlanets; i++)
+    for (int i = 0; i < m_pStarSystem->m_NrOfPlanets; i++)
     {
         planet tmp = m_pStarSystem->m_pPlanets[i];
         sf::CircleShape circPlan;
         circPlan.setRadius(tmp.size);
         circPlan.setFillColor(*tmp.color);
-        circPlan.setPosition(currPos, Config::getInstance().getWindowSizeHeight() / 2 - star.getRadius() / 2 + circPlan.getRadius());
+        circPlan.setPosition(currPos, Config::GetInstance().GetWindowSizeHeight() / 2 - star.getRadius() / 2 + circPlan.getRadius());
 
         currPos += circPlan.getRadius() * 3 + 20;
 
@@ -138,7 +138,7 @@ void StarSystemState::Render(sf::RenderWindow* window)
 
         window->draw(circPlan);
 
-		if (!((GalaxyState*)m_pLastState)->isPlanetVisited(i))
+		if (!((GalaxyState*)m_pLastState)->IsPlanetVisited(i))
 		{
 			sf::Sprite resource;
 			resource.setTexture(*(m_ppResTex[tmp.resource]), true);
