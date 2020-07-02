@@ -10,6 +10,7 @@ namespace sf
 class Ship;
 class Star;
 class Game;
+class Cargo;
 
 struct visitedPlanet
 {
@@ -40,7 +41,7 @@ private:
 	bool m_grid;
 	
 	std::vector<visitedPlanet> m_visitedPlanets;
-
+	Cargo* m_pCargo;
 public:
 	GalaxyState(Game* game);
 	~GalaxyState();

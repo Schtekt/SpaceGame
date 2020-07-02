@@ -5,12 +5,15 @@
 #include "Star.h"
 #include "Game.h"
 #include "StarSystemState.h"
+#include "Cargo.h"
+
 GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
-m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game)
+m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game),m_pCargo(nullptr)
 {
     m_pFont = new sf::Font();
     char* winDir = getenv("WinDir"); //Get the window directory
     m_pFont->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
+    m_pCargo = new Cargo(m_pFont);
 }
 
 GalaxyState::~GalaxyState()
@@ -67,7 +70,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && m_pSeletectedStar && !m_pShip->isMoving())
         {
-            StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar, m_pFont);
+            StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar, m_pFont, m_pCargo);
             GameState::ChangeState(systemState);
         }
 
@@ -243,6 +246,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
     }
 
     m_pShip->Render(window);
+    m_pCargo->Render(window);
     window->display();
 }
 

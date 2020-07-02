@@ -6,7 +6,8 @@ enum Resource
 	minerals,
 	spices,
 	livestock,
-	grains
+	grains,
+	NR_OF_ITEMS
 };
 
 #endif RESOURCES_H

@@ -4,7 +4,8 @@
 #include "Ship.h"
 #include "Config.h"
 #include "GalaxyState.h"
-StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font): GameState(game), m_pStarSystem(starSystem), m_pFont(font)
+#include "Cargo.h"
+StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font, Cargo* cargo): GameState(game), m_pStarSystem(starSystem), m_pFont(font), m_pCargo(cargo)
 {
     m_pShip = new Ship(m_pStarSystem->m_size * 4 + 5, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size, Config::getInstance().getWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
     m_pShip->SetSpeed(100);
@@ -130,5 +131,6 @@ void StarSystemState::Render(sf::RenderWindow* window)
     m_pShip->Render(window);
 
 	window->draw(star);
+    m_pCargo->Render(window);
 	window->display();
 }
