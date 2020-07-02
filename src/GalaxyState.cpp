@@ -250,7 +250,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
     window->display();
 }
 
-void GalaxyState::addVisitedPlanet(int nr)
+bool GalaxyState::addVisitedPlanet(int nr)
 {
     visitedPlanet tmp;
     tmp.galaxyCoordX = m_selectedPosX;
@@ -262,8 +262,9 @@ void GalaxyState::addVisitedPlanet(int nr)
         if (m_visitedPlanets[i].galaxyCoordX == tmp.galaxyCoordX && m_visitedPlanets[i].galaxyCoordY == tmp.galaxyCoordY
             && m_visitedPlanets[i].planetNr == tmp.planetNr)
         {
-            return;
+            return false;
         }
     }
     m_visitedPlanets.push_back(tmp);
+    return true;
 }

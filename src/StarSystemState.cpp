@@ -64,7 +64,10 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
             float dist = sqrt(diff.x * diff.x + diff.y * diff.y);
             if (dist <= tmp.size / 2)
             {
-                ((GalaxyState*)m_pLastState)->addVisitedPlanet(i);
+                if (((GalaxyState*)m_pLastState)->addVisitedPlanet(i))
+                {
+                    m_pCargo->AddResource(m_pStarSystem->m_pPlanets[i].resource);
+                }
             }
             currPos += tmp.size * 3 + 20;
         }

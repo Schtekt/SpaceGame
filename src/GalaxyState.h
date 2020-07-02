@@ -48,7 +48,7 @@ public:
 	virtual void Update(float dt, sf::RenderWindow* window);
 	virtual void Render(sf::RenderWindow* window);
 
-	void addVisitedPlanet(int nr);
+	bool addVisitedPlanet(int nr);
 };
 
 #endif
