@@ -252,19 +252,33 @@ void GalaxyState::Render(sf::RenderWindow* window)
 
 bool GalaxyState::addVisitedPlanet(int nr)
 {
-    visitedPlanet tmp;
-    tmp.galaxyCoordX = m_selectedPosX;
-    tmp.galaxyCoordY = m_selectedPosY;
-    tmp.planetNr = nr;
+	visitedPlanet tmp;
+	tmp.galaxyCoordX = m_selectedPosX;
+	tmp.galaxyCoordY = m_selectedPosY;
+	tmp.planetNr = nr;
 
-    for (int i = 0; i < m_visitedPlanets.size(); i++)
-    {
-        if (m_visitedPlanets[i].galaxyCoordX == tmp.galaxyCoordX && m_visitedPlanets[i].galaxyCoordY == tmp.galaxyCoordY
-            && m_visitedPlanets[i].planetNr == tmp.planetNr)
-        {
-            return false;
-        }
-    }
-    m_visitedPlanets.push_back(tmp);
-    return true;
+	if (!isPlanetVisited(nr))
+	{
+		m_visitedPlanets.push_back(tmp);
+		return true;
+	}
+	return false;
+}
+
+bool GalaxyState::isPlanetVisited(int nr)
+{
+	visitedPlanet tmp;
+	tmp.galaxyCoordX = m_selectedPosX;
+	tmp.galaxyCoordY = m_selectedPosY;
+	tmp.planetNr = nr;
+
+	for (int i = 0; i < m_visitedPlanets.size(); i++)
+	{
+		if (m_visitedPlanets[i].galaxyCoordX == tmp.galaxyCoordX && m_visitedPlanets[i].galaxyCoordY == tmp.galaxyCoordY
+			&& m_visitedPlanets[i].planetNr == tmp.planetNr)
+		{
+			return true;
+		}
+	}
+	return false;
 }

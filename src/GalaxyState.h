@@ -49,6 +49,7 @@ public:
 	virtual void Render(sf::RenderWindow* window);
 
 	bool addVisitedPlanet(int nr);
+	bool isPlanetVisited(int nr);
 };
 
 #endif

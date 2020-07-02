@@ -9,6 +9,21 @@ StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font, C
 {
     m_pShip = new Ship(m_pStarSystem->m_size * 4 + 5, Config::getInstance().getWindowSizeHeight() / 2 - m_pStarSystem->m_size, Config::getInstance().getWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
     m_pShip->SetSpeed(100);
+	for (int i = 0; i < 4; ++i)
+	{
+		m_ppResTex[i] = new sf::Texture;
+		m_ppResTex[i]->loadFromFile("..//resources//resource_" + std::to_string(i) + ".png");
+	}
+}
+
+StarSystemState::~StarSystemState()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		delete m_ppResTex[i];
+	}
+	delete[] m_ppResTex;
+	delete m_pShip;
 }
 
 void StarSystemState::Update(float dt, sf::RenderWindow* window)
@@ -121,14 +136,17 @@ void StarSystemState::Render(sf::RenderWindow* window)
             window->draw(highlight);
         }
 
-		sf::Text resource;
-		resource.setFont(*m_pFont);
-		resource.setString(std::to_string(tmp.resource));
-		resource.setOrigin(resource.getLocalBounds().width / 2, resource.getLocalBounds().height / 2);
-		resource.setPosition(sf::Vector2f(circPlan.getPosition().x + circPlan.getRadius(), circPlan.getPosition().y - resource.getLocalBounds().height - 5));
-
         window->draw(circPlan);
-		window->draw(resource);
+
+		if (!((GalaxyState*)m_pLastState)->isPlanetVisited(i))
+		{
+			sf::Sprite resource;
+			resource.setTexture(*(m_ppResTex[tmp.resource]), true);
+			resource.setOrigin(resource.getLocalBounds().width / 2, resource.getLocalBounds().height / 2);
+			resource.setPosition(sf::Vector2f(circPlan.getPosition().x + circPlan.getRadius(), circPlan.getPosition().y - resource.getLocalBounds().height - 5));
+
+			window->draw(resource);
+		}
     }
 
     m_pShip->Render(window);

@@ -12,22 +12,22 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 	LehmerRand* lehm = LehmerRand::GetInstance();
 	unsigned int seed = (x & 0xFFFF) << 16 | (y & 0xFFFF);
 	lehm->SetSeed(seed);
-	m_exists = lehm->Rand(0,50) == 2;
+	m_exists = lehm->Rand(0,49) == 2;
 
 	if (!m_exists)
 		return;
-	m_size = (float)lehm->Rand(10, 35);
+	m_size = (float)lehm->Rand(10, 34);
 	int rand = lehm->Rand(0, 6);
 	m_pColor = &starColors[rand];
 
 	if (genFullSystem)
 	{
-		m_nrOfPlanets = lehm->Rand(1, 10);
+		m_nrOfPlanets = lehm->Rand(1, 9);
 		m_pPlanets = new planet[m_nrOfPlanets];
 
 		for (int i = 0; i < m_nrOfPlanets; i++)
 		{
-			m_pPlanets[i].size = lehm->Rand(3, m_size - 1);
+			m_pPlanets[i].size = lehm->Rand(3, m_size);
 			m_pPlanets[i].color = &planetColors[lehm->Rand(0, 7)];
 			m_pPlanets[i].resource = Resource(lehm->Rand(0, 3));
 		}
