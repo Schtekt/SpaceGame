@@ -3,17 +3,16 @@
 #include <SFML/Graphics.hpp>
 #include "Config.h"
 #include <stdio.h>
-#include "LehmerRand.h"
+#include <random>
 #include <iostream>
 
 Cargo::Cargo(sf::Font* font): m_pFont(font)
 {
+	srand(time(NULL));
 	for (unsigned int i = 0; i < Resource::NR_OF_ITEMS; i++)
 	{
 		m_resourcesInCargo.push_back(0);
-		m_resourcesGoals.push_back(LehmerRand::GetInstance()->Rand(1, 20));
-
-		std::cout << "Loading resource: ..//resources//resource_" + std::to_string(i) + ".png" << std::endl;
+		m_resourcesGoals.push_back(rand() % 21 + 1);
 		sf::Texture* tex = new sf::Texture();
 		if (!tex->loadFromFile("..//resources//resource_" + std::to_string(i) + ".png"))
 			std::cout << "Could not load texture!" << std::endl;
