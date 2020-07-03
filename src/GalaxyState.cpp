@@ -8,7 +8,7 @@
 #include "Cargo.h"
 
 GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_Grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_Selected(false),
-m_pShip(new Ship(0, 0, 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game),m_pCargo(nullptr)
+m_pShip(new Ship(rand(), rand(), 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game),m_pCargo(nullptr)
 {
     m_pFont = new sf::Font();
     char* winDir = getenv("WinDir"); //Get the window directory

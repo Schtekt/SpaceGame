@@ -8,7 +8,6 @@
 
 Cargo::Cargo(sf::Font* font): m_pFont(font)
 {
-	srand(time(NULL));
 	for (unsigned int i = 0; i < Resource::NR_OF_ITEMS; i++)
 	{
 		m_resourcesInCargo.push_back(0);
@@ -27,18 +26,18 @@ Cargo::Cargo(sf::Font* font): m_pFont(font)
 		tmp.setFont(*m_pFont);
 		tmp.setString(std::to_string(m_resourcesInCargo[i]) + "/" + std::to_string(m_resourcesGoals[i]));
 		tmp.setFillColor(sf::Color::White);
-		m_ResourceTexts.push_back(tmp);
+		m_resourceTexts.push_back(tmp);
 	}
 
 
 	int offset = 0;
 
-	for (int i = m_ResourceTexts.size() - 1; i >= 0; i--)
+	for (int i = m_resourceTexts.size() - 1; i >= 0; i--)
 	{
-		offset += m_ResourceTexts[i].getGlobalBounds().width + 30;
-		m_ResourceTexts[i].setPosition(sf::Vector2f(Config::GetInstance().GetWindowSizeWidth() - offset, 25));
+		offset += m_resourceTexts[i].getGlobalBounds().width + 30;
+		m_resourceTexts[i].setPosition(sf::Vector2f(Config::GetInstance().GetWindowSizeWidth() - offset, 25));
 		m_sprites[i]->setOrigin(sf::Vector2f(m_sprites[i]->getLocalBounds().width / 2, 0));
-		m_sprites[i]->setPosition(sf::Vector2f(Config::GetInstance().GetWindowSizeWidth() - offset + m_ResourceTexts[i].getGlobalBounds().width / 2, 10));
+		m_sprites[i]->setPosition(sf::Vector2f(Config::GetInstance().GetWindowSizeWidth() - offset + m_resourceTexts[i].getGlobalBounds().width / 2, 10));
 	}
 }
 
@@ -56,15 +55,15 @@ void Cargo::AddResource(Resource rcs)
 	if (m_resourcesGoals[rcs] != m_resourcesInCargo[rcs])
 	{
 		m_resourcesInCargo[rcs] += 1;
-		m_ResourceTexts[rcs].setString(std::to_string(m_resourcesInCargo[rcs]) + "/" + std::to_string(m_resourcesGoals[rcs]));
+		m_resourceTexts[rcs].setString(std::to_string(m_resourcesInCargo[rcs]) + "/" + std::to_string(m_resourcesGoals[rcs]));
 	}
 }
 
 void Cargo::Render(sf::RenderWindow* window)
 {
-	for (int i = 0; i < m_ResourceTexts.size(); i++)
+	for (int i = 0; i < m_resourceTexts.size(); i++)
 	{
 		window->draw(*m_sprites[i]);
-		window->draw(m_ResourceTexts[i]);
+		window->draw(m_resourceTexts[i]);
 	}
 }
