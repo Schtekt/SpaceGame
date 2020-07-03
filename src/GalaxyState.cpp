@@ -70,8 +70,11 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && m_pSeletectedStar && !m_pShip->IsMoving())
         {
-            StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar, m_pFont, m_pCargo);
-            GameState::ChangeState(systemState);
+            if (m_pSeletectedStar->m_Exists)
+            {
+                StarSystemState* systemState = new StarSystemState(m_pGame, m_pSeletectedStar, m_pFont, m_pCargo);
+                GameState::ChangeState(systemState);
+            }
         }
 
 
@@ -192,22 +195,19 @@ void GalaxyState::Render(sf::RenderWindow* window)
         shipTrav.setOutlineThickness(2);
         window->draw(shipTrav);
 
+        sf::Text coordinatesText;
+        coordinatesText.setFont(*m_pFont);
+        coordinatesText.setPosition(sf::Vector2f(0, 0));
+        coordinatesText.setString(std::to_string((int)std::roundf(m_galaxyOffsetX)) + ", " + std::to_string((int)std::roundf(m_galaxyOffsetY)));
+        window->draw(coordinatesText);
+
+        sf::Text shipPosText;
+        shipPosText.setFont(*m_pFont);
+        shipPosText.setColor(sf::Color::Green);
+        shipPosText.setPosition(sf::Vector2f(0, coordinatesText.getLocalBounds().height));
+        shipPosText.setString(std::to_string(shipPos.x) + ", " + std::to_string(shipPos.y));
+        window->draw(shipPosText);
     }
-    sf::Text coordinatesText;
-    coordinatesText.setFont(*m_pFont);
-    coordinatesText.setPosition(sf::Vector2f(0, 0));
-    coordinatesText.setString(std::to_string((int)std::roundf(m_galaxyOffsetX)) + ", " + std::to_string((int)std::roundf(m_galaxyOffsetY)));
-    window->draw(coordinatesText);
-
-    sf::Vector2i shipPos;
-    m_pShip->GetPosition(shipPos.x, shipPos.y);
-
-    sf::Text shipPosText;
-    shipPosText.setFont(*m_pFont);
-    shipPosText.setColor(sf::Color::Green);
-    shipPosText.setPosition(sf::Vector2f(0, coordinatesText.getLocalBounds().height));
-    shipPosText.setString(std::to_string(shipPos.x) + ", " + std::to_string(shipPos.y));
-    window->draw(shipPosText);
 
     if (m_Selected)
     {

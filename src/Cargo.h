@@ -16,8 +16,11 @@ class Cargo
 {
 private:
 	sf::Font* m_pFont;
-	std::vector<sf::Text> m_resourceValues;
-	std::vector<sf::Sprite> m_sprites;
+	std::vector<unsigned int> m_resourcesInCargo;
+	std::vector<unsigned int> m_resourcesGoals;
+	std::vector<sf::Text> m_ResourceTexts;
+	std::vector<sf::Texture*> m_textures;
+	std::vector<sf::Sprite*> m_sprites;
 public:
 	Cargo(sf::Font* font);
 	~Cargo();
