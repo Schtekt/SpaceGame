@@ -9,6 +9,7 @@ StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font, C
 {
     m_pShip = new Ship(m_pStarSystem->m_Size * 4 + 5, Config::GetInstance().GetWindowSizeHeight() / 2 - m_pStarSystem->m_Size, Config::GetInstance().GetWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
     m_pShip->SetSpeed(100);
+    m_ppResTex = new sf::Texture * [Resource::NR_OF_ITEMS];
 	for (int i = 0; i < 4; ++i)
 	{
 		m_ppResTex[i] = new sf::Texture;

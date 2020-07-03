@@ -13,7 +13,6 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 	unsigned int seed = (x & 0xFFFF) << 16 | (y & 0xFFFF);
 	lehm->SetSeed(seed);
 	m_Exists = lehm->Rand(0,49) == 2;
-
 	if (!m_Exists)
 		return;
 	m_Size = (float)lehm->Rand(10, 34);
@@ -37,6 +36,6 @@ Star::Star(int x, int y, int minSize, int maxSize, bool genFullSystem) : m_pPlan
 
 Star::~Star()
 {
-	if(m_pPlanets)
-		delete m_pPlanets;
+	if (m_pPlanets)
+		delete[] m_pPlanets;
 }

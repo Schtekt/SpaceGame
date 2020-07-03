@@ -1,5 +1,4 @@
 #include "LehmerRand.h"
-LehmerRand* LehmerRand::m_pLehm = nullptr;
 
 LehmerRand::LehmerRand()
 {
@@ -29,12 +28,10 @@ int LehmerRand::Rand(int min, int max)
 
 LehmerRand* LehmerRand::GetInstance()
 {
-    if (!m_pLehm)
-        m_pLehm = new LehmerRand();
-    return m_pLehm;
+    static LehmerRand instance;
+    return &instance;
 }
 
 LehmerRand::~LehmerRand()
 {
-    delete m_pLehm;
 }

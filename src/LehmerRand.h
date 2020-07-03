@@ -8,7 +8,6 @@ private:
 	LehmerRand();
 
 public:
-	static LehmerRand* m_pLehm;
 	void SetSeed(int seed);
 	uint32_t Rand();
 	int Rand(int min, int max);

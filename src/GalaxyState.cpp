@@ -7,8 +7,8 @@
 #include "StarSystemState.h"
 #include "Cargo.h"
 
-GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_Grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_Selected(false),
-m_pShip(new Ship(rand(), rand(), 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game),m_pCargo(nullptr)
+GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_Grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
+m_pShip(new Ship(rand(), rand(), 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game), m_pCargo(nullptr)
 {
     m_pFont = new sf::Font();
     char* winDir = getenv("WinDir"); //Get the window directory
@@ -19,6 +19,9 @@ m_pShip(new Ship(rand(), rand(), 30, "..//resources//spaceship.png", "..//resour
 GalaxyState::~GalaxyState()
 {
     delete m_pFont;
+    delete m_pCargo;
+    delete m_pSeletectedStar;
+    delete m_pShip;
 }
 
 void GalaxyState::Update(float dt,sf::RenderWindow* window)
@@ -89,7 +92,7 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
             float travelLength = sqrt(travelDiff.x * travelDiff.x + travelDiff.y * travelDiff.y);
             if (travelLength <= m_pShip->GetMaxTravelDist())
             {
-                if (!m_pSeletectedStar)
+                if (m_pSeletectedStar)
                     delete m_pSeletectedStar;
 
                 m_pSeletectedStar = new Star(galMousePos.x, galMousePos.y, 3, sectorWidth - 1, true);
@@ -107,10 +110,10 @@ void GalaxyState::Update(float dt,sf::RenderWindow* window)
         if (m_pSeletectedStar && !m_pShip->IsMoving())
         {
             if (m_pSeletectedStar->m_Exists)
-                m_Selected = true;
+                m_selected = true;
         }
         else
-            m_Selected = false;
+            m_selected = false;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
@@ -134,7 +137,6 @@ void GalaxyState::Render(sf::RenderWindow* window)
     sf::Vector2i galMousePos = sf::Mouse::getPosition(*window);
     galMousePos /= sectorWidth;
     galMousePos += sf::Vector2i(std::roundf(m_galaxyOffsetX), std::roundf(m_galaxyOffsetY));
-
     for (int x = 0; x < m_sectorsOnScreen; x++)
     {
         for (int y = 0; y < m_sectorsOnScreen; y++)
@@ -209,7 +211,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
         window->draw(shipPosText);
     }
 
-    if (m_Selected)
+    if (m_selected)
     {
         sf::RenderTexture tex;
         tex.create(window->getSize().x, window->getSize().y / 5);

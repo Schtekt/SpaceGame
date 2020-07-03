@@ -18,7 +18,7 @@ private:
 	Ship* m_pShip;
 	sf::Font* m_pFont;
 	Cargo* m_pCargo;
-	sf::Texture* m_ppResTex[4];
+	sf::Texture** m_ppResTex;
 public:
 	StarSystemState(Game* game, Star* starSystem, sf::Font* font, Cargo* cargo);
 	~StarSystemState();

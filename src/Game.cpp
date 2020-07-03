@@ -3,6 +3,7 @@
 #include <SFML/System.hpp>
 #include "GalaxyState.h"
 #include "Config.h"
+#include "LehmerRand.h"
 
 unsigned int width = 720;
 unsigned int height = 720;
@@ -21,6 +22,7 @@ Game::Game()
 Game::~Game()
 {
 	delete m_pWindow;
+	delete m_pState;
 }
 
 void Game::Run()
@@ -28,7 +30,6 @@ void Game::Run()
 	sf::Clock clock;
 	while (m_pWindow->isOpen())
 	{
-		sf::Event event;
 		m_pState->Update(clock.restart().asSeconds(), m_pWindow);
 		m_pState->Render(m_pWindow);
 	}

@@ -32,7 +32,7 @@ private:
 
 	sf::Font* m_pFont;
 
-	bool m_Selected;
+	bool m_selected;
 	int m_SelectedPosX;
 	int m_SelectedPosY;
 	Star* m_pSeletectedStar;

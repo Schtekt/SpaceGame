@@ -13,6 +13,7 @@ protected:
 	Game* m_pGame;
 public:
 	GameState(Game* game);
+	virtual ~GameState();
 	void ChangeState(GameState* state);
 	void PopState();
 	virtual void Update(float dt, sf::RenderWindow* window) = 0;
