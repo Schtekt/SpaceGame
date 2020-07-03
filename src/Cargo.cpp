@@ -11,7 +11,7 @@ Cargo::Cargo(sf::Font* font): m_pFont(font)
 	for (unsigned int i = 0; i < Resource::NR_OF_ITEMS; i++)
 	{
 		m_resourcesInCargo.push_back(0);
-		m_resourcesGoals.push_back(rand() % 21 + 1);
+		m_resourcesGoals.push_back(rand() % 20 + 1);
 		sf::Texture* tex = new sf::Texture();
 		if (!tex->loadFromFile("..//resources//resource_" + std::to_string(i) + ".png"))
 			std::cout << "Could not load texture!" << std::endl;

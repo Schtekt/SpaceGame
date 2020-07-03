@@ -38,6 +38,8 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
             if (event.type == sf::Event::Closed)
             {
                 window->close();
+                PopState();
+                return;
             }
         }
     }
