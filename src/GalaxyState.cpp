@@ -211,6 +211,7 @@ void GalaxyState::Render(sf::RenderWindow* window)
         window->draw(shipPosText);
     }
 
+    m_pShip->Render(window);
     if (m_selected)
     {
         sf::RenderTexture tex;
@@ -246,8 +247,6 @@ void GalaxyState::Render(sf::RenderWindow* window)
         starSysDisplay.setPosition(0, window->getSize().y * 4 / 5);
         window->draw(starSysDisplay);
     }
-
-    m_pShip->Render(window);
     m_pCargo->Render(window);
     window->display();
 }
