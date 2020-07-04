@@ -4,6 +4,7 @@
 #include "GalaxyState.h"
 #include "Config.h"
 #include "LehmerRand.h"
+#include "Timer.h"
 
 unsigned int width = 720;
 unsigned int height = 720;

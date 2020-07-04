@@ -5,6 +5,8 @@
 #include "Config.h"
 #include "GalaxyState.h"
 #include "Cargo.h"
+#include "Timer.h"
+
 StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font, Cargo* cargo): GameState(game), m_pStarSystem(starSystem), m_pFont(font), m_pCargo(cargo)
 {
     m_pShip = new Ship(m_pStarSystem->m_Size * 4 + 5, Config::GetInstance().GetWindowSizeHeight() / 2 - m_pStarSystem->m_Size, Config::GetInstance().GetWindowSizeHeight(), "..//resources//spaceship.png", "..//resources//spaceship_flames.png");
@@ -104,7 +106,17 @@ void StarSystemState::Render(sf::RenderWindow* window)
 	sf::Text exitText;
 	exitText.setString("Press BACKSPACE to exit star system");
 	exitText.setFont(*m_pFont);
+	exitText.setPosition(10, Config::GetInstance().GetWindowSizeHeight() - exitText.getLocalBounds().height - 10);
 	window->draw(exitText);
+
+	sf::Text timer;
+	timer.setFont(*m_pFont);
+	float time = Timer::GetInstance().GetTime() / 1000.0f;
+	char timeString[16];
+	sprintf(timeString, "%.2f", time);
+	timer.setString(timeString);
+	timer.setPosition(10, 0);
+	window->draw(timer);
 
 	sf::CircleShape star;
 	star.setRadius(m_pStarSystem->m_Size * 2);

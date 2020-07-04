@@ -1,15 +1,18 @@
 #include "Timer.h"
+#include <SFML/System/Clock.hpp>
 
 Timer::Timer()
 {
+	clock = new sf::Clock;
 }
 
 void Timer::StartTimer()
 {
+	clock->restart();
 }
 
 int Timer::GetTime()
 {
-	return 0;
+	return clock->getElapsedTime().asMilliseconds();
 }
 

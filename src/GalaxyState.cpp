@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "StarSystemState.h"
 #include "Cargo.h"
+#include "Timer.h"
 
 GalaxyState::GalaxyState(Game* game) : m_sectorsOnScreen(30), m_Grid(false), m_pSeletectedStar(nullptr), m_galaxyOffsetX(0), m_galaxyOffsetY(0), m_selected(false),
 m_pShip(new Ship(rand(), rand(), 30, "..//resources//spaceship.png", "..//resources//spaceship_flames.png")), m_mousePosX(0), m_mousePosY(0), GameState(game), m_pCargo(nullptr)
@@ -14,6 +15,7 @@ m_pShip(new Ship(rand(), rand(), 30, "..//resources//spaceship.png", "..//resour
     char* winDir = getenv("WinDir"); //Get the window directory
     m_pFont->loadFromFile(std::string(winDir) + "\\Fonts\\Ebrima.ttf");
     m_pCargo = new Cargo(m_pFont);
+	Timer::GetInstance().StartTimer();
 }
 
 GalaxyState::~GalaxyState()
@@ -164,6 +166,14 @@ void GalaxyState::Render(sf::RenderWindow* window)
         }
     }
 
+	sf::Text timer;
+	timer.setFont(*m_pFont);
+	float time = Timer::GetInstance().GetTime() / 1000.0f;
+	char timeString[16];
+	sprintf(timeString, "%.2f", time);
+	timer.setString(timeString);
+	timer.setPosition(10, 0);
+
     if (m_Grid)
     {
         for (int y = 0; y < m_sectorsOnScreen - 1; y++)
@@ -209,7 +219,11 @@ void GalaxyState::Render(sf::RenderWindow* window)
         shipPosText.setPosition(sf::Vector2f(0, coordinatesText.getLocalBounds().height));
         shipPosText.setString(std::to_string(shipPos.x) + ", " + std::to_string(shipPos.y));
         window->draw(shipPosText);
+
+		timer.setPosition(coordinatesText.getLocalBounds().width + 75, 0);
     }
+
+	window->draw(timer);
 
     m_pShip->Render(window);
     if (m_selected)
