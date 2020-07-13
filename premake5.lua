@@ -4,7 +4,6 @@ configurations { "Debug", "Release" }
 location "build"
     
 project "SpaceGame"
-kind "ConsoleApp"
 language "C++"
 targetdir "bin/%{cfg.buildcfg}"
 files { "src/**.*" }
@@ -32,6 +31,7 @@ links
 
 filter "configurations:Debug"
 defines { "DEBUG" }
+kind "ConsoleApp"
 symbols "On"
 links
 {	
@@ -44,6 +44,7 @@ links
 
 filter "configurations:Release"
 defines { "NDEBUG" }
+kind "WindowedApp"
 optimize "On"
 links
 {	
@@ -51,5 +52,6 @@ links
     "sfml-window-s",
     "sfml-system-s",
     "sfml-audio-s",
-    "sfml-network-s"
+    "sfml-network-s",
+    "sfml-main"
 }
