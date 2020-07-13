@@ -67,3 +67,17 @@ void Cargo::Render(sf::RenderWindow* window)
 		window->draw(m_resourceTexts[i]);
 	}
 }
+
+bool Cargo::HasReachedGoal()
+{
+	bool res = true;
+	for (unsigned int i = 0; i < m_resourcesInCargo.size(); i++)
+	{
+		if (m_resourcesInCargo[i] < m_resourcesGoals[i])
+		{
+			res = false;
+			break;
+		}
+	}
+	return res;
+}

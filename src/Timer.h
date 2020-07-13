@@ -8,12 +8,13 @@ namespace sf
 
 class Timer {
 private:
-	sf::Clock* clock;
+	sf::Clock* m_pClock;
 
 	Timer();
 
 public:
 	Timer(Timer const&) = delete;
+	~Timer();
 	void operator=(Timer const&) = delete;
 
 	static Timer& GetInstance()

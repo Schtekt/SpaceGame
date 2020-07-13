@@ -3,16 +3,21 @@
 
 Timer::Timer()
 {
-	clock = new sf::Clock;
+	m_pClock = new sf::Clock;
+}
+
+Timer::~Timer()
+{
+	delete m_pClock;
 }
 
 void Timer::StartTimer()
 {
-	clock->restart();
+	m_pClock->restart();
 }
 
 int Timer::GetTime()
 {
-	return clock->getElapsedTime().asMilliseconds();
+	return m_pClock->getElapsedTime().asMilliseconds();
 }
 

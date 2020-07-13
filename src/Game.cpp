@@ -34,4 +34,7 @@ void Game::Run()
 		m_pState->Update(clock.restart().asSeconds(), m_pWindow);
 		m_pState->Render(m_pWindow);
 	}
+
+	while (m_pState)
+		m_pState->PopState();
 }

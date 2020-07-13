@@ -26,6 +26,7 @@ public:
 	~Cargo();
 	void AddResource(Resource rcs);
 	void Render(sf::RenderWindow* window);
+	bool HasReachedGoal();
 };
 
 #endif

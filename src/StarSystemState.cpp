@@ -6,6 +6,7 @@
 #include "GalaxyState.h"
 #include "Cargo.h"
 #include "Timer.h"
+#include "GameOverState.h"
 
 StarSystemState::StarSystemState(Game* game, Star* starSystem, sf::Font* font, Cargo* cargo): GameState(game), m_pStarSystem(starSystem), m_pFont(font), m_pCargo(cargo)
 {
@@ -91,6 +92,12 @@ void StarSystemState::Update(float dt, sf::RenderWindow* window)
             }
             currPos += tmp.size * 3 + 20;
         }
+    }
+
+    if (m_pCargo->HasReachedGoal())
+    {
+        GameOverState* gameOverState = new GameOverState(m_pGame, m_pFont);
+        GameState::ChangeState(gameOverState);
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
